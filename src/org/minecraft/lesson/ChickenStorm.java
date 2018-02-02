@@ -3,6 +3,7 @@ package org.minecraft.lesson;
 import java.util.logging.Logger;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,18 +29,24 @@ public class ChickenStorm extends JavaPlugin{
 		Player me = (Player) sender;
 		Location spot = me.getLocation();
 		World world = me.getWorld();
+		int quantity = 0;
 		for( int i=0; i < Math.random()*NUM_CHICKENS + 1; i++){
-			Location chickenspot = new Location(world, spot.getX(), spot.getY(), spot.getZ());
+			Location chickenspot = new Location(world, spot.getX() -15 * Math.random()*30, 
+					spot.getY() + 10 + Math.random()*100, spot.getZ() - 15 + Math.random()*30);
+			if( chickenspot.getBlock().getType() != Material.AIR){
+				continue;
+			}
 			Chicken clucky = world.spawn(chickenspot, Chicken.class);
 			if( Math.random() < 0.4d){
 				clucky.setBaby();
 			}{
 				clucky.setAdult();
 			}
+			quantity++;
 		}
 		
 		
-		Log.info("[chickenstorm] The mod create new chicken");
+		Log.info("[" + quantity +"] chicken summoned");
 	}
 	
 }
